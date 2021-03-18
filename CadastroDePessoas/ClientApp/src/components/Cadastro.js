@@ -49,21 +49,30 @@ export default class Cadastro extends Component {
         this.setState({ enderecos: newEnderecos });
     }
 
-    async salvarBD(cadastro) {
-        console.log(cadastro)
+    async salvarBD(cadastro) {        
         if (!cadastro.pessoaId) {
-            await CreateCadastro(cadastro);
-            alert("Cadastro criado com sucesso.")           
+            const res = await CreateCadastro(cadastro);
+            if (res) {
+                alert("Cadastro criado com sucesso.");
+                this.voltarParaHome();
+            }          
         } else {
-            await UpdateCadastro(cadastro);
-            alert("Cadastro atualizado com sucesso.")
+            const res = await UpdateCadastro(cadastro);
+            if (res) {
+                alert("Cadastro atualizado com sucesso.");
+                this.voltarParaHome();
+            }
         }
+    }
+
+    voltarParaHome() {
+        this.props.ocultarCadastro();
     }
 
     render() {
         return (
             <div>
-                <button className="btn btn-primary" onClick={this.props.ocultarCadastro} style={{ float: "right", marginBottom: "15px" }}> Voltar</button>
+                <button className="btn btn-primary" onClick={this.voltarParaHome.bind(this)} style={{ float: "right", marginBottom: "15px" }}> Voltar</button>
 
                 <h5>Dados pessoais</h5>
                 <div style={{ display: "flex", flexDirection: "row" }}>
@@ -87,7 +96,7 @@ export default class Cadastro extends Component {
                     </div>
                     <Endereco enderecos={this.state.enderecos} insereEnderecos={this.insereEnderecos.bind(this)}></Endereco>
                 </div>
-                <button className="btn btn-success fas fa-user-plus" onClick={this.salvar.bind(this)} style={{width: "30%" }}></button>
+                <button className="btn btn-success" onClick={this.salvar.bind(this)} style={{ width: "30%" }}>{this.state.pessoaId ? "Atualizar" : "Cadastradar"}</button>
             </div>
         );
     }    

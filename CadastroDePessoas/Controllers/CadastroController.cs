@@ -1,7 +1,7 @@
 ﻿using System;
-using CadastroDePessoas.Contexts;
-using CadastroDePessoas.Models;
-using CadastroDePessoas.Repositories;
+using Domain.Models;
+using Infrastructure.Repositories;
+using Infrastructure.Contexts;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

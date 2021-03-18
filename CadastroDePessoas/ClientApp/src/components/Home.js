@@ -26,7 +26,7 @@ export default class Home extends Component {
     renderCadastroTable() {        
         return (
             <div>
-                <button className="btn btn-primary" onClick={this.mostrarCadastro.bind(this)} style={{ float: "right", marginBottom:"15px" }}> Novo Cadastro</button>
+                <button className="btn btn-primary fas fa-user-plus" onClick={this.mostrarCadastro.bind(this)} style={{ float: "right", marginBottom: "15px", width:"20%" }}></button>
                 
               <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
@@ -72,15 +72,17 @@ export default class Home extends Component {
         
     }
 
-    ocultarCadastro() {
+   async ocultarCadastro() {
         console.log(this.state)
         this.setState({ createCadastro: false });
-        this.setState({ cadastroDetalhado: { pessoaId: null } });        
+        this.setState({ cadastroDetalhado: { pessoaId: null } }); 
+        const response = await GetTabelaCadastro();
+        this.setState({ cadastros: response });
     }
 
      detalharCadastro(e) {
         const cad = this.state.cadastros[e.target.value];
-         this.setState({ cadastroDetalhado: cad });
+        this.setState({ cadastroDetalhado: cad });
         this.setState({ createCadastro: true });
         
     }
@@ -89,13 +91,11 @@ export default class Home extends Component {
         const cad = this.state.cadastros[e.target.value];
 
         $(`#${cad.pessoaId}`).remove();
-        await DeleteCadastro(cad.pessoaId);
-        
-        alert("Cadastro Removido com sucesso");
-    }    
-
-    async reaload() {
-        const response = await GetTabelaCadastro();
-        this.setState({ cadastros: response });
-    }
+        const res =await DeleteCadastro(cad.pessoaId);
+        if (res) {
+            alert("Cadastro Removido com sucesso");
+            const response = await GetTabelaCadastro();
+            this.setState({ cadastros: response });
+        }
+    } 
 }
