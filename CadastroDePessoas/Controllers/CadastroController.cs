@@ -1,7 +1,6 @@
 ﻿using System;
 using Domain.Models;
 using Infrastructure.Repositories;
-using Infrastructure.Contexts;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,9 +13,9 @@ namespace CadastroDePessoas.Controllers
     {
         private ICadastroRepository _cadastroRepository;
 
-        public CadastroController()
-        {            
-            _cadastroRepository = new CadastroRepository(new CadastroContext());
+        public CadastroController(ICadastroRepository repo)
+        {
+            _cadastroRepository = repo;
         }
         
 
@@ -26,7 +25,7 @@ namespace CadastroDePessoas.Controllers
         {
             try
             {
-                var listCadastro = _cadastroRepository.ListarCadastros(1);
+                var listCadastro = _cadastroRepository.ListarCadastros();
 
                 return new JsonResult(new { Status = 200, Payload = listCadastro });
 
@@ -44,7 +43,7 @@ namespace CadastroDePessoas.Controllers
         {
             try
             {
-                var listCadastro = _cadastroRepository.ListarCadastros(page);
+                var listCadastro = _cadastroRepository.ListarCadastroComPaginacao(page);
 
                 return new JsonResult(new { Status = 200, Payload = listCadastro });
             }

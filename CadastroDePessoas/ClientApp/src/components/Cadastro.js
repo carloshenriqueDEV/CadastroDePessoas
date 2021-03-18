@@ -53,14 +53,14 @@ export default class Cadastro extends Component {
         if (!cadastro.pessoaId) {
             const res = await CreateCadastro(cadastro);
             if (res) {
-                alert("Cadastro criado com sucesso.");
                 this.voltarParaHome();
+                alert("Cadastro criado com sucesso.");                
             }          
         } else {
             const res = await UpdateCadastro(cadastro);
             if (res) {
-                alert("Cadastro atualizado com sucesso.");
                 this.voltarParaHome();
+                alert("Cadastro atualizado com sucesso.");                
             }
         }
     }

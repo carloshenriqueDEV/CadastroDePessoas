@@ -4,7 +4,7 @@
         headers: { "content-type": "application/json" },
     });
     const data = await response.json();
-    if (data.status == 200) {
+    if (data.status === 200) {
         return data.payload;
     }
     alert(JSON.stringify(data.errors));    
@@ -17,9 +17,8 @@ export async function CreateCadastro(cadastro) {
         headers: { "content-type": "application/json" },
         body: JSON.stringify(cadastro),
     });
-    const data = await response.json();
-    console.log(data)
-    if (data.status == 200) {
+    const data = await response.json();    
+    if (data.status === 200) {
         return data.payload;
     }
     alert(JSON.stringify(data.errors));
@@ -31,9 +30,8 @@ export async function UpdateCadastro(cadastro) {
         headers: { "content-type": "application/json" },
         body: JSON.stringify(cadastro),
     });
-    const data = await response.json();
-    console.log(data)
-    if (data.status == 200) {
+    const data = await response.json();    
+    if (data.status === 200) {
         return data.payload;
     }
     alert(JSON.stringify(data.errors));
@@ -42,7 +40,7 @@ export async function UpdateCadastro(cadastro) {
 export async function GetTabelaCadastro() {
     const response = await fetch('cadastro');
     const data = await response.json();
-    if (data.status == 200) {
+    if (data.status === 200) {
         return data.payload;
     }
     alert(JSON.stringify(data.errors));

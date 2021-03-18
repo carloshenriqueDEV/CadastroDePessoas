@@ -5,7 +5,9 @@ namespace Infrastructure.Repositories
 {
    public interface ICadastroRepository
     {
-        public IList<Pessoa> ListarCadastros(int page);
+        public IList<Pessoa> ListarCadastros();
+
+        public IList<Pessoa> ListarCadastroComPaginacao(int page);
 
         public Pessoa AdicionarCadastro(Pessoa pessoa);
 

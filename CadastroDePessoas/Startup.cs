@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Infrastructure.Repositories;
+using Infrastructure.Contexts;
 
 namespace CadastroDePessoas
 {
@@ -18,7 +20,11 @@ namespace CadastroDePessoas
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {   
+        {
+            services.AddScoped<CadastroContext>();
+
+            services.AddScoped<ICadastroRepository, CadastroRepository>();
+
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory

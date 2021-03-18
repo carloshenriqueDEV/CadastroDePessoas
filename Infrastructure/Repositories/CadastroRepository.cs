@@ -100,20 +100,15 @@ namespace Infrastructure.Repositories
 
         }
 
-        public IList<Pessoa> ListarCadastros(int page)
+        public IList<Pessoa> ListarCadastros()
         {
-            int nElemento = 5;
-            int menor = page == 1 ? 1 : nElemento * page / 2;
-            int maior = nElemento * page;
-
             IList<Pessoa> list;
 
             try
             {
                 using (var conn = _context)
                 {
-                    list =  conn.Pessoas.Take(100).ToList();
-                        //conn.Pessoas.Where(p => p.PessoaId >= menor && p.PessoaId <= maior).Select(s => s).ToList<Pessoa>();
+                    list =  conn.Pessoas.Take(100).ToList();                      
 
                     foreach (var pessoa in list)
                     {
@@ -170,5 +165,31 @@ namespace Infrastructure.Repositories
             }
         }
     
+        public IList<Pessoa> ListarCadastroComPaginacao(int page)
+        {
+            int nElemento = 5;
+            int menor = page == 1 ? 1 : nElemento * page / 2;
+            int maior = nElemento * page;
+
+            IList<Pessoa> list;
+
+            try
+            {
+                using (var conn = _context)
+                {
+                    list = conn.Pessoas.Where(p => p.PessoaId >= menor && p.PessoaId <= maior).Select(s => s).ToList<Pessoa>();                   
+
+                    foreach (var pessoa in list)
+                    {
+                        pessoa.Enderecos = conn.Enderecos.Where(e => e.PessoaId == pessoa.PessoaId).Select(e => e).ToList<Endereco>();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return list;
+        }
     }
 }
